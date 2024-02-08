@@ -1,4 +1,6 @@
 ﻿// ask for input
+using System.Reflection.Metadata;
+
 Console.WriteLine("Enter 1 to create data file.");
 Console.WriteLine("Enter 2 to parse data.");
 Console.WriteLine("Enter anything else to quit.");
@@ -44,6 +46,39 @@ if (resp == "1")
 }
 else if (resp == "2")
 {
-    // TODO: parse data file
+        // verify file exists
+        if (File.Exists("data.txt"))
+        {
+            // read file
+            StreamReader sr = new StreamReader("data.txt");
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                // separate lines into date and sleep data
+                string[] arr = line.Split(',');
 
+                // display date
+                DateTime parsedDate = DateTime.Parse(arr[0]);
+                Console.WriteLine($"Week of {parsedDate:MMM}, {parsedDate:dd}, {parsedDate:yyyy}");
+                
+                // separate data into individual data points
+                string sleepHours = arr[1];
+                string[] sleepHoursArr = sleepHours.Split('|');
+
+                // set preferred alignment scheme
+                const int align = 3;
+
+                // display data
+                Console.WriteLine($"{"Su",align}{"Mo",align}{"Tu",align}{"We",align}{"Th",align}{"Fr",align}{"Sa",align}");
+                Console.WriteLine($"{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}");
+                Console.WriteLine($"{sleepHoursArr[0],align}{sleepHoursArr[1],align}{sleepHoursArr[2],align}{sleepHoursArr[3],align}{sleepHoursArr[4],align}{sleepHoursArr[5],align}{sleepHoursArr[6],align}");
+                Console.WriteLine();
+            }
+            sr.Close();
+        }
+        else
+        {
+            // default if no data file exists
+            Console.WriteLine("File not found.");
+        }    
 }
