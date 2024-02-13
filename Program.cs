@@ -64,14 +64,26 @@ else if (resp == "2")
                 // separate data into individual data points
                 string sleepHours = arr[1];
                 string[] sleepHoursArr = sleepHours.Split('|');
+                // initialize total hour data and convert string array into double array
+                double totalHours = 0;
+                double[] doubleSleepHoursArr = Array.ConvertAll(sleepHoursArr, Double.Parse);
+
+                // compute total hours
+                foreach (double dataPoint in doubleSleepHoursArr)
+                {
+                    totalHours += dataPoint;
+                }
+
+                // compute average hours
+                double averageHours = Math.Round(totalHours / 7, 1);
 
                 // set preferred alignment scheme
                 const int align = 3;
 
                 // display data
-                Console.WriteLine($"{"Su",align}{"Mo",align}{"Tu",align}{"We",align}{"Th",align}{"Fr",align}{"Sa",align}");
-                Console.WriteLine($"{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}");
-                Console.WriteLine($"{sleepHoursArr[0],align}{sleepHoursArr[1],align}{sleepHoursArr[2],align}{sleepHoursArr[3],align}{sleepHoursArr[4],align}{sleepHoursArr[5],align}{sleepHoursArr[6],align}");
+                Console.WriteLine($"{"Su",align}{"Mo",align}{"Tu",align}{"We",align}{"Th",align}{"Fr",align}{"Sa",align}{"Tot",align + 1}{"Avg",align + 1}");
+                Console.WriteLine($"{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align}{"--",align + 1}{"--",align + 1}");
+                Console.WriteLine($"{sleepHoursArr[0],align}{sleepHoursArr[1],align}{sleepHoursArr[2],align}{sleepHoursArr[3],align}{sleepHoursArr[4],align}{sleepHoursArr[5],align}{sleepHoursArr[6],align}{totalHours,align + 1}{averageHours,align + 1}");
                 Console.WriteLine();
             }
             sr.Close();
